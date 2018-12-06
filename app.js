@@ -1,17 +1,17 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var sitePath = process.argv[2] || ".";
 
-var indexRouter = require('./routes/index');
+var Home = require('./routes/home')
 
 var app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/', indexRouter);
+app.use('/', Home);
 
-app.use(express.static(__dirname + '/' + sitePath));
+app.use(express.static('public'));
+
 var PORT = process.env.PORT || 4242;
 
 app.listen(PORT, function(){
