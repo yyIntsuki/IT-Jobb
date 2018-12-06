@@ -3,13 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon app.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
-    "cookie-parser": "^1.4.3",
-    "express": "^4.16.4",
-    "morgan": "^1.9.1"
+    "express": "^4.16.4"
   },
   "devDependencies": {
     "nodemon": "^1.18.7"
