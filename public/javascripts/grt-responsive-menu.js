@@ -9,14 +9,14 @@
 
 // Create a function for mobile version
 (function( $ ){
-	$.fn.mobile = function () {
+	$.fn.grtmobile = function () {
 		if ($(window).width() < 768) {
-			$('.mobile-button').on('click', function(){
-				$(this).toggleClass("mobile-button-open");
-				$("ul.menu").toggleClass("open-menu ");
+			$('.grt-mobile-button').on('click', function(){
+				$(this).toggleClass("grt-mobile-button-open");
+				$("ul.grt-menu").toggleClass("open-grt-menu ");
 				$("html, body").toggleClass("body-overflow");
 			});
-			$('li.dropdown').on('click', function(e){
+			$('li.grt-dropdown').on('click', function(e){
 				$(this).toggleClass("active-dropdown");
 			});
 		}
@@ -24,7 +24,7 @@
 })( jQuery );
 
 // Initialize and check for mobile
-$.fn.mobile();
+$.fn.grtmobile();
 
 // On resize window check for mobile
 
@@ -32,7 +32,7 @@ var resizeTimeout;
 $(window).resize(function(){
   if(!!resizeTimeout){ clearTimeout(resizeTimeout); }
   resizeTimeout = setTimeout(function(){
-    $.fn.mobile();
+    $.fn.grtmobile();
   },200);
 });
 
@@ -46,6 +46,6 @@ $(window).scroll(function(e){
 });
 
 // Prevent a href clicks on dropdown category
-$('li.dropdown > a').on('click', function(e){
+$('li.grt-dropdown > a').on('click', function(e){
 	e.preventDefault();
 });
