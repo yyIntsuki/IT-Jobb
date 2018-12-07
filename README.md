@@ -4,7 +4,7 @@ Vårt mål är att skapa en webbapplikation som gör det möjligt att hitta IT-j
 Vi vill att man som ingenjör ska kunna hitta sitt nästa IT jobb utan att behöva flytta eller ha onödigt långa ressträckor till och från sin arbetsplats. Det ska inte behöva vara en uppoffring att skaffa ett nytt jobb utan man ska enkelt och smidigt kunna välja något på ett behörigt avstånd inom IT branchen. 
 
 # Teknikstack
-* API: hanterar data på ett organiserat sätt
+* API: Arbetsförmedlingens API (Platsbanken), Google Maps (Directions API)
 * NodeJS, REST, JSON, JS, MongoDB (mLab)
 * App/Web application - hostas av IIS, Apache, Node
 * Hostas: Heroku
