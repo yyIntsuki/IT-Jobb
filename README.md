@@ -30,6 +30,7 @@ Testa: till itteration 1:
 * Se till så det finns en meny där vårt syfte syns.
 * Det ska vara möjligt att få information om möjliga jobb via postnummer.
 * Det måste även gå att se ytterligare information om jobben när man väljer de.
+
 Se ["Komma igång"](#komma-igång) för hur man startar upp testservern
 
 Presentera: slutgiltigt steg som måste förberedas och repeteras - iteration 3:s huvudsakliga syfte är att förfina detta
