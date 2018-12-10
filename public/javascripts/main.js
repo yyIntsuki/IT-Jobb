@@ -1,8 +1,14 @@
-function getZip() {
+//DOM ready =======================================================
 
-    $(document).click(function (e) {
+$(document).ready(function () {
+    $('#doSearch').click(function (e) {
+        getZip();
         e.preventDefault();
-    });
+    })
+});
+
+//Functions =======================================================
+function getZip() {
 
     var zipCode = $('#zipCode').val();
 
@@ -18,14 +24,19 @@ function getZip() {
         success: function (data) {
             $('#searchResult').empty();
             console.log(data);
-            for (var i = 0; i < data.matchningslista.matchningdata.length; i++) {
-                $('#searchResult').append(data.matchningslista.matchningdata[i].annonsrubrik + "<br>");
+            if (data.matchningslista.antal_platsannonser == 0) {
+                $('#searchResult').append('Inga jobb hittades.');
+            }
+            else {
+                for (var i = 0; i < data.matchningslista.matchningdata.length; i++) {
+                    $('#searchResult').append(data.matchningslista.matchningdata[i].annonsrubrik + "<br>");
 
-                /*
-                // Create a variable to represent annonsId so we can get details from each annons
-                var annonsId = data.matchningslista.matchningdata[i].annonsid;
-                getMoreInfo(annonsId);
-                */
+                    /*
+                    // Create a variable to represent annonsId so we can get details from each annons
+                    var annonsId = data.matchningslista.matchningdata[i].annonsid;
+                    getMoreInfo(annonsId);
+                    */
+                }
             }
         },
 
