@@ -1,14 +1,77 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-  <title>Express</title>
-  <link rel="stylesheet" href="/stylesheets/style.css">
-  <script scr="./javascripts/location.js"></script>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>IT-Jobb : Index</title>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+  <!-- /Stylesheets -->
 </head>
 
 <body>
-  <h1>Express</h1>
-  <p>Welcome to Express</p>
+  <!-- Navbar -->
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+          aria-expanded="false" aria-controls="navbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="./">IT-jobb</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="./">Hem</a></li>
+          <li><a href="info">Om oss</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="profil">Profil</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- /Navbar -->
+
+  <!-- Content -->
+  <div class="container">
+    <div>
+      <!-- ONCLICK call AF API function to print a list -->
+      <form class="center">
+        <h3>Sök med postnummer</h2>
+          <input type="text" name="zipCode" id="zipCode">
+          <input type="button" value="Search" onclick='getZip()'>
+      </form>
+      <br>
+
+      <h3 class="center">Sökresultat</h2>
+        <div id="searchResult" class="centerElement"></div>
+    </div>
+  </div>
+  <!-- /Content -->
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <span class="text-muted">&copy; 2018 CUE</span>
+    </div>
+  </footer>
+  <!-- /Footer -->
+
+  <!-- Javascripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
+  <script src='javascripts/main.js'></script>
+  <!-- /Javascripts -->
 </body>
 
 </html>
