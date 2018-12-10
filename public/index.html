@@ -43,7 +43,18 @@
 
   <!-- Content -->
   <div class="container">
-    <p>Hej världen från Index</p>
+    <div>
+      <!-- ONCLICK call AF API function to print a list -->
+      <form class="center">
+        <h3>Sök med postnummer</h2>
+          <input type="text" name="zipCode" id="zipCode">
+          <input type="button" value="Search" onclick='getZip()'>
+      </form>
+      <br>
+
+      <h3 class="center">Sökresultat</h2>
+        <div id="searchResult" class="centerElement"></div>
+    </div>
   </div>
   <!-- /Content -->
 
@@ -59,6 +70,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
     crossorigin="anonymous"></script>
+  <script src='javascripts/main.js'></script>
   <!-- /Javascripts -->
 </body>
 
