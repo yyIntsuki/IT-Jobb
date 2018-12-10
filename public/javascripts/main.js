@@ -14,7 +14,7 @@ function getZip() {
 
     $.ajax({
         method: 'GET',
-        url: 'http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?nyckelord=' + zipCode + '&yrkesomradeid=3',
+        url: 'https://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?nyckelord=' + zipCode + '&yrkesomradeid=3',
 
         header: {
             'Accept': 'application/json',
