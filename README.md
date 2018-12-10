@@ -4,7 +4,7 @@ Vårt mål är att skapa en webbapplikation som gör det möjligt att hitta IT-j
 Vi vill att man som ingenjör ska kunna hitta sitt nästa IT jobb utan att behöva flytta eller ha onödigt långa ressträckor till och från sin arbetsplats. Det ska inte behöva vara en uppoffring att skaffa ett nytt jobb utan man ska enkelt och smidigt kunna välja något på ett behörigt avstånd inom IT branchen. 
 
 # Teknikstack
-* API: hanterar data på ett organiserat sätt
+* API: Arbetsförmedlingens API (Platsbanken), Google Maps (Directions API)
 * NodeJS, REST, JSON, JS, MongoDB (mLab)
 * App/Web application - hostas av IIS, Apache, Node
 * Hostas: Heroku
@@ -26,7 +26,12 @@ Research: dokumentation av det vi finner görs här i GitHub i .md filer
 
 Kommunicera: Daily Scrum 09:00 - var ligger vi? vad ska ske under dagen?  
 
-Testa: ["Komma igång"](#komma-igång)
+Testa: till itteration 1:
+* Se till så det finns en meny där vårt syfte syns.
+* Det ska vara möjligt att få information om möjliga jobb via postnummer.
+* Det måste även gå att se ytterligare information om jobben när man väljer de.
+
+Se ["Komma igång"](#komma-igång) för hur man startar upp testservern
 
 Presentera: slutgiltigt steg som måste förberedas och repeteras - iteration 3:s huvudsakliga syfte är att förfina detta
 
@@ -39,6 +44,8 @@ Presentera: slutgiltigt steg som måste förberedas och repeteras - iteration 3:
 Starta server med "npm start", det använder Nodemon, som kollar efter ändringar i filer och kör serveromstart automatiskt.
 
 Lokal testmiljö uppe på port 4242.
+
+Publik testmiljö uppe på [heroku](https://it-jobb.herokuapp.com/).
 
 # Uppgiftens grund
 Herkommers uppstarts dokument: https://t4-1819.slack.com/archives/CEKGAHJFK/p1544022704000300
