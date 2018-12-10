@@ -1,8 +1,14 @@
-function getZip() {
+//DOM ready =======================================================
 
-    $(document).click(function (e) {
+$(document).ready(function () {
+    $('#doSearch').click(function (e) {
+        getZip();
         e.preventDefault();
-    });
+    })
+});
+
+//Functions =======================================================
+function getZip() {
 
     var zipCode = $('#zipCode').val();
 
