@@ -41,11 +41,11 @@ Presentera: slutgiltigt steg som måste förberedas och repeteras - iteration 3:
 * Som en besökare vill jag kunna maila information om jobbet
 
 # Komma igång
-Starta server med "npm start", det använder Nodemon, som kollar efter ändringar i filer och kör serveromstart automatiskt.
+Starta servern med "npm start".
 
 Lokal testmiljö uppe på port 4242.
 
-Publik testmiljö uppe på [heroku](https://it-jobb.herokuapp.com/).
+Publik testmiljö uppe på [Heroku](https://it-jobb.herokuapp.com/)
 
 # Uppgiftens grund
 Herkommers uppstarts dokument: https://t4-1819.slack.com/archives/CEKGAHJFK/p1544022704000300
