@@ -25,7 +25,7 @@ function getZip() {
             $('#searchResult').empty();
             console.log(data);
             if (data.matchningslista.antal_platsannonser == 0) {
-                $('#searchResult').append('Inga jobb hittades.');
+                $('#searchResult').append('Inga jobb hittades för detta postnummer.');
             }
             else {
                 for (var i = 0; i < data.matchningslista.matchningdata.length; i++) {
@@ -65,3 +65,15 @@ function getMoreInfo(annonsId) {
     });
 }
 */
+
+// Searchbar Focus
+$(function () {
+    $("#zipCode").focus();
+});
+
+// Search upon hitting Enter button
+$("#zipCode").keyup(function(event) {
+    if (event.keyCode === 13) {
+        $("#doSearch").click();
+    }
+});
