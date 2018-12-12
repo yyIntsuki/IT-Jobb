@@ -29,7 +29,7 @@ function getZip() {
             }
             else {
                 for (var i = 0; i < data.matchningslista.matchningdata.length; i++) {
-                    $('#searchResult').append(data.matchningslista.matchningdata[i].annonsrubrik + "<br>");
+                    $('#searchResult').append( "<hr>" + data.matchningslista.matchningdata[i].annonsrubrik);
 
                     /*
                     // Create a variable to represent annonsId so we can get details from each annons
