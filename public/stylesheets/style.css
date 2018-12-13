@@ -39,3 +39,13 @@ body>.container {
   padding-right: 15px;
   padding-left: 15px;
 }
+
+.search {
+  display: block;
+  width: 100%;
+  border: none;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+}
