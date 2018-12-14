@@ -122,22 +122,14 @@ $(function (){
             
                     success: function (data) {
                         annonser = data.matchningslista;
-                        console.log(data);
-
                         $.each(annonser.matchningdata, function(){
                             getMoreInfo(this.annonsid, function(annonsInfo){
-                                console.log('Info:')
-                                console.log(annonsInfo);
-                                console.log(annonsInfo.arbetsplats.postadress)
+                                console.log(annonsInfo.arbetsplats.postadress + " " + annonsInfo.arbetsplats.postort);
                                 geocoder.geocode({'address': annonsInfo.arbetsplats.postadress + " " + annonsInfo.arbetsplats.postort}, function(results, status){
                                     if (status == 'OK') {
-                                        map.setCenter(results[0].geometry.location);
-                                        var marker = new google.maps.Marker({
-                                            map: map,
-                                            position: results[0].geometry.location
-                                        });
+                                        createMarker(results[0].geometry.location, annonsInfo.annons.annonsrubrik);
                                       } else {
-                                        alert('Geocode was not successful for the following reason: ' + status);
+                                        console.log('Geocode was not successful for the following reason: ' + status);
                                       }
                                 
                                 });
@@ -173,7 +165,8 @@ function initMap(coordinates, postalCode){
 };
 
 // Create marker
-function createMarker(place) {
+function createMarker(place,title) {
+    
     var placeLoc = place.geometry.location;
     var marker = new google.maps.Marker({
         map: map,
@@ -184,4 +177,6 @@ function createMarker(place) {
         infoWindow.setContent(place.name);
         infoWindow.open(map, this);
     });
+    
+    
 }
