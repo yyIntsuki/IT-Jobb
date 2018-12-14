@@ -105,6 +105,7 @@ $(function (){
             });
 
             $("#searchForm").hide();
+            $("#map").show();
             initMap(coordinates);
         });
     };
