@@ -77,3 +77,29 @@ $("#zipCode").keyup(function(event) {
         $("#doSearch").click();
     }
 });
+
+// Map =====================================================================
+// global variables
+var geocoder = new google.maps.Geocoder;
+// Ask for location
+$(function (){
+    var postalCode;
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(function(position){
+            var coordinates = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+
+            geocoder.geocode({'location': coordinates}, function(results){
+                var addressComponents = results[0].address_components;
+        
+                $.each(addressComponents, function(){
+                    if(this.types[0]=="postal_code"){
+                       postalCode=this.short_name;
+                    }
+                });
+            });
+        });
+    };
+});
