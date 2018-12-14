@@ -65,9 +65,8 @@ function getMoreInfo(annonsId) {
             var workEmploymentDetails = data.platsannons.villkor.arbetstid;
             var workLastDate = data.platsannons.ansokan.sista_ansokningsdag;
             var workUrl = data.platsannons,annons,platsannonsUrl;
-
-            // Test - does it work
-            console.log(JSON.stringify(workName));
+           
+            var workName = JSON.stringify(data.platsannons.annons.yrkesbenamning);
         },
 
         error: function (req, status, error) {
