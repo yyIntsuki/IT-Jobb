@@ -44,6 +44,16 @@ function getZip() {
     });
 }
 
+// Variables needed for GET details
+var workAdTitle;
+var workName;           
+var workPublishDate;
+var workAddress;
+var workCompanyName;
+var workEmploymentDetails;
+var workLastDate;
+var workUrl;
+
 // GET details from annonsId
 function getMoreInfo(annonsId) {
     $.ajax({
@@ -57,16 +67,14 @@ function getMoreInfo(annonsId) {
         },
 
         success: function (data) {
-            var workAdTitle = data.platsannons.annons.annonsrubrik;
-            var workName = data.platsannons.annons.yrkesbenamning;
-            var workPublishDate = data.platsannons.annons.publiceraddatum;
-            var workAddress = data.platsannons.arbetsplats.besoksadress;
-            var workCompanyName = data.platsannons.arbetsplats.arbetsplatsnamn;
-            var workEmploymentDetails = data.platsannons.villkor.arbetstid;
-            var workLastDate = data.platsannons.ansokan.sista_ansokningsdag;
-            var workUrl = data.platsannons,annons,platsannonsUrl;
-           
-            var workName = JSON.stringify(data.platsannons.annons.yrkesbenamning);
+            workAdTitle = data.platsannons.annons.annonsrubrik;
+            workName = data.platsannons.annons.yrkesbenamning;
+            workPublishDate = data.platsannons.annons.publiceraddatum;
+            workAddress = data.platsannons.arbetsplats.besoksadress;
+            workCompanyName = data.platsannons.arbetsplats.arbetsplatsnamn;
+            workEmploymentDetails = data.platsannons.villkor.arbetstid;
+            workLastDate = data.platsannons.ansokan.sista_ansokningsdag;
+            workUrl = data.platsannons,annons,platsannonsUrl;
         },
 
         error: function (req, status, error) {
