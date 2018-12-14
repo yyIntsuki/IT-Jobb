@@ -78,7 +78,7 @@ $("#zipCode").keyup(function(event) {
 });
 
 // Map =====================================================================
-// global variables
+// Global variables
 var map;
 var infowindow;
 var geocoder = new google.maps.Geocoder;
@@ -86,7 +86,7 @@ var geocoder = new google.maps.Geocoder;
 $(function (){
     if(navigator.geolocation){
         var coordinates;
-        var postalCode
+        var postalCode;
         navigator.geolocation.getCurrentPosition(function(position){
             coordinates = {
                 lat: position.coords.latitude,
@@ -101,29 +101,42 @@ $(function (){
                        postalCode=this.short_name;
                     }
                 });
+                $("#searchForm").hide();
+                $("#map").show();
+                initMap(coordinates, postalCode);
+                getZip(postalCode);
+                console.log(postalCode);
             });
-
-            $("#searchForm").hide();
-            $("#map").show();
-            initMap(coordinates);
-            getZip(postalCode);
         });
     };
 });
 
 // Create a map
-function initMap(coordinates){
-    var pyrmont = { lat: -33.867, lng: 151.195 };
+function initMap(coordinates, postalCode){
     map = new google.maps.Map(document.getElementById('map'), {
-        center: pyrmont,
+        center: coordinates,
         zoom: 15
     });
     infoWindow = new google.maps.InfoWindow();
 
     infoWindow.setPosition(coordinates);
-    infoWindow.setContent('Location found.');
+    infoWindow.setContent(postalCode);
     infoWindow.open(map);
 
     infoWindow = new google.maps.InfoWindow();
     
 };
+
+// Create marker
+function createMarker(place) {
+    var placeLoc = place.geometry.location;
+    var marker = new google.maps.Marker({
+        map: map,
+        position: place.geometry.location
+    });
+
+    google.maps.event.addListener(marker, 'click', function () {
+        infoWindow.setContent(place.name);
+        infoWindow.open(map, this);
+    });
+}
