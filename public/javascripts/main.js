@@ -80,13 +80,16 @@ $("#zipCode").keyup(function(event) {
 
 // Map =====================================================================
 // global variables
+var map;
+var infowindow;
 var geocoder = new google.maps.Geocoder;
 // Ask for location
 $(function (){
-    var postalCode;
     if(navigator.geolocation){
+        var coordinates;
+        var postalCode
         navigator.geolocation.getCurrentPosition(function(position){
-            var coordinates = {
+            coordinates = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
@@ -100,6 +103,25 @@ $(function (){
                     }
                 });
             });
+
+            $("#searchForm").hide();
+            initMap(coordinates);
         });
     };
 });
+
+// Create a map
+function initMap(coordinates){
+    var pyrmont = { lat: -33.867, lng: 151.195 };
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: pyrmont,
+        zoom: 15
+    });
+    infoWindow = new google.maps.InfoWindow();
+
+    infoWindow.setPosition(coordinates);
+    infoWindow.setContent('Location found.');
+    infoWindow.open(map);
+
+    infoWindow = new google.maps.InfoWindow();
+};

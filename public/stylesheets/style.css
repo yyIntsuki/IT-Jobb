@@ -49,3 +49,8 @@ body>.container {
   cursor: pointer;
   text-align: center;
 }
+
+#map{
+  height: 600px;
+  width:100%;
+}
