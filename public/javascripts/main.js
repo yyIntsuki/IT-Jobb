@@ -2,15 +2,14 @@
 
 $(document).ready(function () {
     $('#doSearch').click(function (e) {
-        getZip();
+        var zipCode = $('#zipCode').val();
+        getZip(zipCode);
         e.preventDefault();
     })
 });
 
 //Functions =======================================================
-function getZip() {
-
-    var zipCode = $('#zipCode').val();
+function getZip(zipCode) {
 
     $.ajax({
         method: 'GET',
@@ -107,6 +106,7 @@ $(function (){
             $("#searchForm").hide();
             $("#map").show();
             initMap(coordinates);
+            getZip(postalCode);
         });
     };
 });
@@ -125,4 +125,5 @@ function initMap(coordinates){
     infoWindow.open(map);
 
     infoWindow = new google.maps.InfoWindow();
+    
 };
