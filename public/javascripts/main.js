@@ -1,3 +1,6 @@
+// Global variable
+var annonser;
+
 //DOM ready =======================================================
 
 $(document).ready(function () {
@@ -21,6 +24,7 @@ function getZip(zipCode) {
         },
 
         success: function (data) {
+            annonser = data.matchningslista;
             $('#searchResult').empty();
             console.log(data);
             if (data.matchningslista.antal_platsannonser == 0) {
@@ -45,8 +49,8 @@ function getZip(zipCode) {
     });
 }
 
-/*
-function getMoreInfo(annonsId) {
+
+function getMoreInfo(annonsId, callback) {
     $.ajax({
 
         method: 'GET',
@@ -56,14 +60,16 @@ function getMoreInfo(annonsId) {
             'Accept': 'application/json',
             'Accept-Language': 'sv'
         },
-
         success: function (data) {
-            var workName = data.platsannons.annons.yrkersbenämning;
-            var workAddress = data.platsannons.arbetsplats.besöksadress;
+            callback(data.platsannons);
+        },
+
+        error: function (request, status, error){
+            console.log(error);
         }
     });
 }
-*/
+
 
 // Searchbar Focus
 $(function () {
@@ -99,13 +105,52 @@ $(function (){
                 $.each(addressComponents, function(){
                     if(this.types[0]=="postal_code"){
                        postalCode=this.short_name;
-                    }
+                    };
                 });
                 $("#searchForm").hide();
                 $("#map").show();
                 initMap(coordinates, postalCode);
-                getZip(postalCode);
-                console.log(postalCode);
+
+                $.ajax({
+                    method: 'GET',
+                    url: 'https://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?nyckelord=' + "a" + '&yrkesomradeid=3',
+            
+                    header: {
+                        'Accept': 'application/json',
+                        'Accept-Language': 'sv'
+                    },
+            
+                    success: function (data) {
+                        annonser = data.matchningslista;
+                        console.log(data);
+
+                        $.each(annonser.matchningdata, function(){
+                            getMoreInfo(this.annonsid, function(annonsInfo){
+                                console.log('Info:')
+                                console.log(annonsInfo);
+                                console.log(annonsInfo.arbetsplats.postadress)
+                                geocoder.geocode({'address': annonsInfo.arbetsplats.postadress + " " + annonsInfo.arbetsplats.postort}, function(results, status){
+                                    if (status == 'OK') {
+                                        map.setCenter(results[0].geometry.location);
+                                        var marker = new google.maps.Marker({
+                                            map: map,
+                                            position: results[0].geometry.location
+                                        });
+                                      } else {
+                                        alert('Geocode was not successful for the following reason: ' + status);
+                                      }
+                                
+                                });
+                            });
+                        });
+                    },
+            
+                    error: function (request, status, error) {
+                        console.log(error);
+                    }
+                });
+
+                
             });
         });
     };
