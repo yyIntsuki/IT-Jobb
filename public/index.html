@@ -48,22 +48,9 @@
   <!-- /Navbar -->
 
   <!-- Content -->
-  <div class="container">
-    <div class="center">
-      <div id='map'></div>
-    </div>
-    <!-- ONCLICK call AF API function to print a list -->
-    <div id="searchForm" class="center">
-      <h3>Sök med postnummer</h2>
-        <hr>
-        <input type="text" name="zipCode" id="zipCode" class="search">
-        <hr>
-        <input type="button" value="Sök" id="doSearch" class="search">
-    </div>
-    <br>
-
-    <h3 class="center">Sökresultat</h2>
-      <div id="searchResult" class="centerElement"></div>
+  <div class="container-fluid"> 
+  <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+  <div id='map'></div>
   </div>
   <!-- /Content -->
 

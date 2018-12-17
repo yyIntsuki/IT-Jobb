@@ -44,7 +44,12 @@ function placeJobsOnMap(searchTerm){
                                         '</div>'+
                                         '<h5>'+ title +'</h5>'+
                                         '<div id="bodyContent">'+
-                                        '<p style="text-align:left;">' + job.annons.annonstext.replace('\\n','<br>') + '</p>'+
+                                        '<p><b>Kommun:</b> ' + job.annons.kommunnamn +
+                                        '<br><b>Yrke:</b> ' + job.annons.yrkesbenamning +
+                                        '<br><b>Platser: </b>' + job.annons.antal_platser +
+                                        '<br><a target="_blank" href="' + job.annons.platsannonsUrl + '">Länk</a>' +
+                                        '</p>' + 
+                                        '<p style="text-align:left;">' + job.annons.annonstext.replace(/\n/g, '<br />') + '</p>'+
                                         '<p> test</p>'+
                                         '</div>'+
                                         '</div>';
@@ -124,7 +129,7 @@ function initMap(){
         center: stockholm,
         radius: 5000
       });
-  
+      initAutocomplete();
 };
 
 // Centers map at user location and places a marker.
@@ -219,3 +224,26 @@ function getJobInfo(annonsId, callback) {
         }
     });
 };
+
+function initAutocomplete() {
+
+    // Create the search box and link it to the UI element.
+    var input = document.getElementById('pac-input');
+    var searchBox = new google.maps.places.SearchBox(input);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+    // Bias the SearchBox results towards current map's viewport.
+    map.addListener('bounds_changed', function() {
+      searchBox.setBounds(map.getBounds());
+    });
+
+    // Listen for the event fired when the user selects a prediction and retrieve
+    // more details for that place.
+    searchBox.addListener('places_changed', function() {
+      var places = searchBox.getPlaces();
+
+      if (places.length == 0) {
+        return;
+      }
+    });
+  }
