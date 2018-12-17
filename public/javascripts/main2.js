@@ -240,10 +240,26 @@ function initAutocomplete() {
     // Listen for the event fired when the user selects a prediction and retrieve
     // more details for that place.
     searchBox.addListener('places_changed', function() {
-      var places = searchBox.getPlaces();
+        var places = searchBox.getPlaces();
 
-      if (places.length == 0) {
-        return;
-      }
+        if (places.length == 0) {
+            return;
+        }
+        var place = places[0];
+        if (!place.geometry) {
+            console.log("Returned place contains no geometry");
+            return;
+        }
+        console.log(place.geometry);
+        var coordinates = {
+            lat: place.geometry.location.lat(),
+            lng: place.geometry.location.lng()
+        };
+
+        centerMap(coordinates);
+        getPostalCode(coordinates, function(postalCode){
+            placeJobsOnMap(postalCode.code);
+        });
+
     });
   }
