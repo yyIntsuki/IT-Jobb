@@ -1,45 +1,56 @@
 // Global variables.
 var map,
     infowindow,
-    geocoder;
+    geocoder,
+    userLocationMarker,
+    markers = [];
 
 // Main Function, Runs on page load.
 $(function(){
     initMap();
 
     getUserLocation(function(userLocation){
+
         if(userLocation.allowsNavigator){
             centerMap(userLocation.coordinates);
 
             getPostalCode(userLocation.coordinates, function(postalCode){
                 if(postalCode.available){
-
-                   getJobs(postalCode.code, function(jobs){
-                        // Go through all jobs.
-                        $(jobs).each(function(){
-                            getJobInfo(this.annonsid, function(job){
-                                var address = job.arbetsplats.address + job.arbetsplats.postort
-                                getPositonAddress(address, function(jobCoordinates){
-                                    createMarker(jobCoordinates, job.annons.annonsrubrik);
-                                });
-                            });
-                        });
-                   });
+                   placeJobsOnMap(postalCode.code);
                 };
             });
+        }else{
+            console.log("Could not get position. showing jobs for stockholm");
+            placeJobsOnMap('stockholm');
         };
     });
 });
 
+// Gets and places Jobs on map.
+function placeJobsOnMap(searchTerm){
+    setMapOnAll(null);
+    markers = [];
+    getJobs(searchTerm, function(jobs){
+        // Go through all jobs.
+        $(jobs).each(function(){
+            getJobInfo(this.annonsid, function(job){
+                var address = job.arbetsplats.address + job.arbetsplats.postort
+                getPositonAddress(address, function(jobCoordinates){
+                    createMarker(jobCoordinates, job.annons.annonsrubrik);
+                });
+            });
+        });
+   });
+}
+
 // Ask's user for their current location.
 function getUserLocation(callback){
-    var allowsNavigator,
+    var allowsNavigator = false,
         coordinates;
 
     if(navigator.geolocation){
-        allowsNavigator = true;
-
         navigator.geolocation.getCurrentPosition(function(position){
+            allowsNavigator = true;
             coordinates = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
@@ -49,9 +60,12 @@ function getUserLocation(callback){
                 allowsNavigator: allowsNavigator,
                 coordinates: coordinates
             });
+        }, function(error){
+            callback({
+                allowsNavigator: allowsNavigator,
+                coordinates: coordinates
+            });
         });
-    }else{
-
     };
 };
 
@@ -68,12 +82,27 @@ function initMap(){
     });
     infoWindow = new google.maps.InfoWindow();
     geocoder = new google.maps.Geocoder;
+    userLocationMarker = new google.maps.Marker({
+        map: map,
+        position: stockholm,
+        title: "Dra mig!",
+        draggable:true
+    });
+
+    google.maps.event.addListener(userLocationMarker, 'dragend', function(){
+        getPostalCode({
+            lat: this.position.lat(),
+            lng: this.position.lng() 
+        }, function(postalCode){
+            placeJobsOnMap(postalCode.code);
+        });
+    });
 };
 
-// Centers map at user location and opens a infowindow.
+// Centers map at user location and places a marker.
 function centerMap(coordinates){
     map.setCenter(coordinates)
-    createMarker(coordinates, "Du är här!");
+    userLocationMarker.setPosition(coordinates);
 };
 
 function createMarker(coordinates, title){
@@ -86,7 +115,15 @@ function createMarker(coordinates, title){
         infoWindow.setContent(title);
         infoWindow.open(map, this);
     });
+    markers.push(marker);
 };
+
+// Sets the map on all markers in the array.
+function setMapOnAll(setMap) {
+    $(markers).each(function(){
+        this.setMap(setMap);
+    })
+}
 
 // Get postal code from coordinates.
 function getPostalCode(coordinates, callback){
@@ -121,8 +158,6 @@ function getPositonAddress(address, callback){
 
 // Get jobs from arbetsförmedlingen.
 function getJobs(searchTerm, callback){
-    //Remove later.
-    searchTerm = "a"
     $.ajax({
         method: 'GET',
         url: 'https://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?nyckelord=' + searchTerm + '&yrkesomradeid=3',
