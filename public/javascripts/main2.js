@@ -1,6 +1,7 @@
 // Global variables.
 var map,
-    infowindow;
+    infowindow,
+    geocoder;
 
 // Main Function, Runs on page load.
 $(function(){
@@ -8,6 +9,12 @@ $(function(){
     getUserLocation(function(userLocation){
         if(userLocation.allowsNavigator){
             centerMap(userLocation.coordinates);
+
+            getPostalCode(userLocation.coordinates, function(postalCode){
+                if(postalCode.available){
+                   console.log(postalCode.code);
+                };
+            });
         };
     });
 });
@@ -48,13 +55,14 @@ function initMap(){
         zoom: 13
     });
     infoWindow = new google.maps.InfoWindow();
-}
+    geocoder = new google.maps.Geocoder;
+};
 
 // Centers map at user location and opens a infowindow.
 function centerMap(coordinates){
     map.setCenter(coordinates)
     createMarker(coordinates, "Du är här!");
-}
+};
 
 function createMarker(coordinates, title){
     var marker = new google.maps.Marker({
@@ -66,4 +74,24 @@ function createMarker(coordinates, title){
         infoWindow.setContent(title);
         infoWindow.open(map, this);
     });
-}
+};
+
+// Get postalcode from coordinates.
+function getPostalCode(coordinates, callback){
+    geocoder.geocode({'location':coordinates}, function(results){
+        var postalCodeAvailable = false,
+            postalCode = "",
+            addressComponents = results[0].address_components;
+        $.each(addressComponents, function(){
+            if(this.types[0]=="postal_code"){
+               postalCode=this.short_name;
+               postalCodeAvailable = true;
+            };
+        });
+        
+        callback({
+            available: postalCodeAvailable,
+            code: postalCode
+        })
+    });
+};
