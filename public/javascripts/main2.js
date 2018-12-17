@@ -53,9 +53,17 @@ function initMap(){
 // Centers map at user location and opens a infowindow.
 function centerMap(coordinates){
     map.setCenter(coordinates)
-
-    infoWindow.setPosition(coordinates);
-    infoWindow.setContent("Du är här!");
-    infoWindow.open(map);
+    createMarker(coordinates, "Du är här!");
 }
 
+function createMarker(coordinates, title){
+    var marker = new google.maps.Marker({
+        map: map,
+        position: coordinates,
+        title: title
+    });
+    google.maps.event.addListener(marker, 'click', function () {
+        infoWindow.setContent(title);
+        infoWindow.open(map, this);
+    });
+}
