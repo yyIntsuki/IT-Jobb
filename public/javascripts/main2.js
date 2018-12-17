@@ -6,14 +6,25 @@ var map,
 // Main Function, Runs on page load.
 $(function(){
     initMap();
+
     getUserLocation(function(userLocation){
         if(userLocation.allowsNavigator){
             centerMap(userLocation.coordinates);
+
             getPostalCode(userLocation.coordinates, function(postalCode){
                 if(postalCode.available){
+
                    getJobs(postalCode.code, function(jobs){
-                        console.log(jobs);
-                   })
+                        // Go through all jobs.
+                        $(jobs).each(function(){
+                            getJobInfo(this.annonsid, function(job){
+                                var address = job.arbetsplats.address + job.arbetsplats.postort
+                                getPositonAddress(address, function(jobCoordinates){
+                                    createMarker(jobCoordinates, job.annons.annonsrubrik);
+                                });
+                            });
+                        });
+                   });
                 };
             });
         };
@@ -77,7 +88,7 @@ function createMarker(coordinates, title){
     });
 };
 
-// Get postalcode from coordinates.
+// Get postal code from coordinates.
 function getPostalCode(coordinates, callback){
     geocoder.geocode({'location':coordinates}, function(results){
         var postalCodeAvailable = false,
@@ -93,26 +104,54 @@ function getPostalCode(coordinates, callback){
         callback({
             available: postalCodeAvailable,
             code: postalCode
-        })
+        });
     });
 };
 
-// Get jobs from arbetsförmedlingen
+// Get coordinates from address.
+function getPositonAddress(address, callback){
+    geocoder.geocode({'address':address}, function(results, status){
+        if(status == "OK"){
+            callback(results[0].geometry.location);
+        }else{
+            console.log('Geocode was not successful for the following reason: ' + status);
+        };
+    });
+};
+
+// Get jobs from arbetsförmedlingen.
 function getJobs(searchTerm, callback){
+    //Remove later.
     searchTerm = "a"
     $.ajax({
-            method: 'GET',
-            url: 'https://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?nyckelord=' + searchTerm + '&yrkesomradeid=3',
-            header: {
-                'Accept': 'application/json',
-                'Accept-Language': 'sv'
-            },
-            success: function (data){
-                callback(data.matchningslista.matchningdata);
-            },
-            error: function (error){
+        method: 'GET',
+        url: 'https://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?nyckelord=' + searchTerm + '&yrkesomradeid=3',
+        header: {
+            'Accept': 'application/json',
+            'Accept-Language': 'sv'
+        },
+        success: function (data){
+            callback(data.matchningslista.matchningdata);
+        },
+        error: function (error){
+            console.log(error);
+        }
+    });
+};
 
-            }
-            
-        });
+function getJobInfo(annonsId, callback) {
+    $.ajax({
+        method: 'GET',
+        url: 'http://api.arbetsformedlingen.se/af/v0/platsannonser/' + annonsId,
+        header: {
+            'Accept': 'application/json',
+            'Accept-Language': 'sv'
+        },
+        success: function (data) {
+            callback(data.platsannons);
+        },
+        error: function (request, status, error){
+            console.log(error);
+        }
+    });
 };
