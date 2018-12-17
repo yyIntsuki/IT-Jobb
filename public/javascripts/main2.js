@@ -3,7 +3,8 @@ var map,
     infowindow,
     geocoder,
     userLocationMarker,
-    markers = [];
+    markers = [],
+    jobCircle;
 
 // Main Function, Runs on page load.
 $(function(){
@@ -36,7 +37,18 @@ function placeJobsOnMap(searchTerm){
             getJobInfo(this.annonsid, function(job){
                 var address = job.arbetsplats.address + job.arbetsplats.postort
                 getPositonAddress(address, function(jobCoordinates){
-                    createMarker(jobCoordinates, job.annons.annonsrubrik);
+                    console.log(job);
+                    var title = job.annons.annonsrubrik
+                    var contentString = '<div id="content">'+
+                                        '<div id="siteNotice">'+
+                                        '</div>'+
+                                        '<h5>'+ title +'</h5>'+
+                                        '<div id="bodyContent">'+
+                                        '<p style="text-align:left;">' + job.annons.annonstext.replace('\\n','<br>') + '</p>'+
+                                        '<p> test</p>'+
+                                        '</div>'+
+                                        '</div>';
+                    createMarker(jobCoordinates, title, contentString);
                 });
             });
         });
@@ -78,10 +90,11 @@ function initMap(){
     // jquery selector returns a collection, we select the first element in it.
     map = new google.maps.Map($('#map')[0], {
         center: stockholm,
-        zoom: 13
+        zoom: 10
     });
     infoWindow = new google.maps.InfoWindow();
     geocoder = new google.maps.Geocoder;
+    // Place a marker for where the user is.
     userLocationMarker = new google.maps.Marker({
         map: map,
         position: stockholm,
@@ -90,29 +103,45 @@ function initMap(){
     });
 
     google.maps.event.addListener(userLocationMarker, 'dragend', function(){
-        getPostalCode({
+        var markerCoordinates = {
             lat: this.position.lat(),
             lng: this.position.lng() 
-        }, function(postalCode){
+        }
+        jobCircle.setCenter(markerCoordinates)
+        getPostalCode(markerCoordinates, function(postalCode){
             placeJobsOnMap(postalCode.code);
         });
     });
+
+    // Make a circle.
+    jobCircle = new google.maps.Circle({
+        strokeColor: '#0000FF',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#0000FF',
+        fillOpacity: 0.35,
+        map: map,
+        center: stockholm,
+        radius: 5000
+      });
+  
 };
 
 // Centers map at user location and places a marker.
 function centerMap(coordinates){
     map.setCenter(coordinates)
     userLocationMarker.setPosition(coordinates);
+    jobCircle.setCenter(coordinates);
 };
 
-function createMarker(coordinates, title){
+function createMarker(coordinates, title, content){
     var marker = new google.maps.Marker({
         map: map,
         position: coordinates,
         title: title
     });
     google.maps.event.addListener(marker, 'click', function () {
-        infoWindow.setContent(title);
+        infoWindow.setContent(content);
         infoWindow.open(map, this);
     });
     markers.push(marker);
