@@ -1,6 +1,14 @@
-$( function(){
+// Global variables
+var map,
+    infowindow;
+
+$(function(){
     getUserLocation(function(userLocation){
-        
+        if(userLocation.allowsNavigator){
+            $('#searchForm').hide();
+            $('#map').show();
+            initMap(userLocation.coordinates);
+        };
     });
 });
 
@@ -25,6 +33,14 @@ function getUserLocation(callback){
         });
     }else{
 
-    }
-    
+    };
 };
+
+// Generate a google map
+function initMap(coordinates){
+    // jquery selector returns a collection, we select the first element in it.
+    map = new google.maps.Map($('#map')[0], {
+        center: coordinates,
+        zoom: 15
+    });
+}
