@@ -9,10 +9,11 @@ $(function(){
     getUserLocation(function(userLocation){
         if(userLocation.allowsNavigator){
             centerMap(userLocation.coordinates);
-
             getPostalCode(userLocation.coordinates, function(postalCode){
                 if(postalCode.available){
-                   console.log(postalCode.code);
+                   getJobs(postalCode.code, function(jobs){
+                        console.log(jobs);
+                   })
                 };
             });
         };
@@ -94,4 +95,24 @@ function getPostalCode(coordinates, callback){
             code: postalCode
         })
     });
+};
+
+// Get jobs from arbetsförmedlingen
+function getJobs(searchTerm, callback){
+    searchTerm = "a"
+    $.ajax({
+            method: 'GET',
+            url: 'https://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?nyckelord=' + searchTerm + '&yrkesomradeid=3',
+            header: {
+                'Accept': 'application/json',
+                'Accept-Language': 'sv'
+            },
+            success: function (data){
+                callback(data.matchningslista.matchningdata);
+            },
+            error: function (error){
+
+            }
+            
+        });
 };
