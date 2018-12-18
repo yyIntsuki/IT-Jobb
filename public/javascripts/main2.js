@@ -105,7 +105,8 @@ function initMap(){
         map: map,
         position: stockholm,
         title: "Dra mig!",
-        draggable:true
+        draggable:true,
+        icon: 'icons/map-marker-radius.png'
     });
 
     google.maps.event.addListener(userLocationMarker, 'dragend', function(){
