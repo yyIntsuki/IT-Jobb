@@ -34,11 +34,9 @@ function getZip(zipCode) {
                 for (var i = 0; i < data.matchningslista.matchningdata.length; i++) {
                     $('#searchResult').append( "<hr>" + data.matchningslista.matchningdata[i].annonsrubrik);
 
-                    /*
                     // Create a variable to represent annonsId so we can get details from each annons
                     var annonsId = data.matchningslista.matchningdata[i].annonsid;
                     getMoreInfo(annonsId);
-                    */
                 }
             }
         },
@@ -49,8 +47,18 @@ function getZip(zipCode) {
     });
 }
 
+// Variables needed for GET details
+var workAdTitle;
+var workName;           
+var workPublishDate;
+var workAddress;
+var workCompanyName;
+var workEmploymentDetails;
+var workLastDate;
+var workUrl;
 
-function getMoreInfo(annonsId, callback) {
+// GET details from annonsId
+function getMoreInfo(annonsId) {
     $.ajax({
 
         method: 'GET',
@@ -69,7 +77,6 @@ function getMoreInfo(annonsId, callback) {
         }
     });
 }
-
 
 // Searchbar Focus
 $(function () {
