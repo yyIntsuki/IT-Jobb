@@ -218,7 +218,7 @@ function getJobs(searchTerm, callback){
 function getJobInfo(annonsId, callback) {
     $.ajax({
         method: 'GET',
-        url: 'http://api.arbetsformedlingen.se/af/v0/platsannonser/' + annonsId,
+        url: 'https://api.arbetsformedlingen.se/af/v0/platsannonser/' + annonsId,
         header: {
             'Accept': 'application/json',
             'Accept-Language': 'sv'
