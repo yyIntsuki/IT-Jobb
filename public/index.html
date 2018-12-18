@@ -9,10 +9,16 @@
   <title>IT-Jobb : Index</title>
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-    crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
   <!-- /Stylesheets -->
+
+  <!-- Javascripts -->
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANw_n-piM2CAn7P_JS1cAeAS-sBh1DttE&libraries=places&language=sv&region=SV" async defer></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="javascripts/main.js"></script>
+  <!-- /Javascripts -->
 </head>
 
 <body>
@@ -42,19 +48,9 @@
   <!-- /Navbar -->
 
   <!-- Content -->
-  <div class="container">
-    <!-- ONCLICK call AF API function to print a list -->
-    <div class="center">
-      <h3>Sök med postnummer</h2>
-        <hr>
-        <input type="text" name="zipCode" id="zipCode" class="search">
-        <hr>
-        <input type="button" value="Sök" id="doSearch" class="search">
-    </div>
-    <br>
-
-    <h3 class="center">Sökresultat</h2>
-      <div id="searchResult" class="centerElement"></div>
+  <div class="container-fluid"> 
+  <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+  <div id='map'></div>
   </div>
   <!-- /Content -->
 
@@ -65,13 +61,6 @@
     </div>
   </footer>
   <!-- /Footer -->
-
-  <!-- Javascripts -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-    crossorigin="anonymous"></script>
-  <script src="javascripts/main.js"></script>
-  <!-- /Javascripts -->
 </body>
 
 </html>
