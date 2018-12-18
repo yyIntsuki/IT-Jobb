@@ -35,9 +35,10 @@ function placeJobsOnMap(searchTerm){
         // Go through all jobs.
         $(jobs).each(function(){
             getJobInfo(this.annonsid, function(job){
-                var address = job.arbetsplats.address + job.arbetsplats.postort
+                var address = job.arbetsplats.besoksadress + job.arbetsplats.adress + job.arbetsplats.postort
                 getPositonAddress(address, function(jobCoordinates){
                     console.log(job);
+                    console.log(address);
                     var title = job.annons.annonsrubrik
                     var contentString = '<div id="content">'+
                                         '<div id="siteNotice">'+
@@ -114,7 +115,12 @@ function initMap(){
         }
         jobCircle.setCenter(markerCoordinates)
         getPostalCode(markerCoordinates, function(postalCode){
-            placeJobsOnMap(postalCode.code);
+            if(postalCode.available){
+                placeJobsOnMap(postalCode.code);
+            }else{
+                setMapOnAll(null);
+                markers = [];
+            };
         });
     });
 
@@ -258,7 +264,12 @@ function initAutocomplete() {
 
         centerMap(coordinates);
         getPostalCode(coordinates, function(postalCode){
-            placeJobsOnMap(postalCode.code);
+            if(postalCode.available){
+                placeJobsOnMap(postalCode.code);
+            }else{
+                setMapOnAll(null);
+                markers = [];
+            };
         });
 
     });
