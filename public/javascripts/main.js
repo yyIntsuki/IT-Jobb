@@ -15,9 +15,9 @@ $(function(){
         if(userLocation.allowsNavigator){
             centerMap(userLocation.coordinates);
 
-            getPostalCode(userLocation.coordinates, function(postalCode){
-                if(postalCode.available){
-                   placeJobsOnMap(postalCode.code);
+            getPostalTown(userLocation.coordinates, function(postalTown){
+                if(postalTown.available){
+                   placeJobsOnMap(postalTown.code);
                 };
             });
         }else{
@@ -35,10 +35,8 @@ function placeJobsOnMap(searchTerm){
         // Go through all jobs.
         $(jobs).each(function(){
             getJobInfo(this.annonsid, function(job){
-                var address = job.arbetsplats.besoksadress + job.arbetsplats.adress + job.arbetsplats.postort
+                var address = job.arbetsplats.besoksadress + " " + job.arbetsplats.postort
                 getPositonAddress(address, function(jobCoordinates){
-                    console.log(job);
-                    console.log(address);
                     var title = job.annons.annonsrubrik
                     var contentString = '<div id="content">'+
                                         '<div id="siteNotice">'+
@@ -115,9 +113,9 @@ function initMap(){
             lng: this.position.lng() 
         }
         jobCircle.setCenter(markerCoordinates)
-        getPostalCode(markerCoordinates, function(postalCode){
-            if(postalCode.available){
-                placeJobsOnMap(postalCode.code);
+        getPostalTown(markerCoordinates, function(postalTown){
+            if(postalTown.available){
+                placeJobsOnMap(postalTown.code);
             }else{
                 setMapOnAll(null);
                 markers = [];
@@ -167,22 +165,26 @@ function setMapOnAll(setMap) {
 }
 
 // Get postal code from coordinates.
-function getPostalCode(coordinates, callback){
-    geocoder.geocode({'location':coordinates}, function(results){
-        var postalCodeAvailable = false,
-            postalCode = "",
+function getPostalTown(coordinates, callback){
+    geocoder.geocode({'location':coordinates}, function(results, status){
+        if(status == "OK"){
+            var postalTownAvailable = false,
+            postalTown = "",
             addressComponents = results[0].address_components;
-        $.each(addressComponents, function(){
-            if(this.types[0]=="postal_code"){
-               postalCode=this.short_name;
-               postalCodeAvailable = true;
-            };
-        });
+            $.each(addressComponents, function(){
+                if(this.types[0]=="postal_town"){
+                postalTown=this.short_name;
+                postalTownAvailable = true;
+                console.log(postalTown);
+                };
+            });
+            
+            callback({
+                available: postalTownAvailable,
+                code: postalTown
+            });
+        };
         
-        callback({
-            available: postalCodeAvailable,
-            code: postalCode
-        });
     });
 };
 
@@ -264,9 +266,9 @@ function initAutocomplete() {
         };
 
         centerMap(coordinates);
-        getPostalCode(coordinates, function(postalCode){
-            if(postalCode.available){
-                placeJobsOnMap(postalCode.code);
+        getPostalTown(coordinates, function(postalTown){
+            if(postalTown.available){
+                placeJobsOnMap(postalTown.code);
             }else{
                 setMapOnAll(null);
                 markers = [];
